@@ -1,32 +1,44 @@
-function MenuItem() {
-	//create a state isFavorite that has the initial value of isFavorite that comes from the props
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import '../styles/App.css';
+
+function MenuItem({ itemName, description, foodImage, price, isFavorite }) {
+	const [isFavoriteState, setIsFavoriteState] = useState(isFavorite);
+	const handleClickFavorite = () => {
+		setIsFavoriteState(!isFavoriteState);
+	};
 
 	return (
 		<div className="itemContainer">
 			<div className="leftContainer">
 				<div className="imgContainer">
-					{/* the image will receive the url src from the props */}
-					<img src="" alt="" />
+					<img src={foodImage} alt={itemName} />
 				</div>
 				<div className="itemDescription">
-					{/* the h3 will receive the item name from the props */}
-					<h3>{}</h3>
-					{/* the p will receive the item description from the props */}
-					<p>{}</p>
+					<h3>{itemName}</h3>
+
+					<p>{description}</p>
 				</div>
 			</div>
 			<div className="rightContainer">
-				{/* the div will receive the item price from the props */}
-				<div>{} EUR</div>
+				<div>{price} EUR</div>
 
-				{/* the div with id favorite will have 2 attributes:
-                - onClick, will call the method handleClickFavorite,
-                - className, that will be conditionally rendered, depending on the value of isFavorite from the component's state
-            */}
-				<div id="favorite" />
+				<div
+					id="favorite"
+					onClick={handleClickFavorite}
+					className={isFavoriteState ? 'isFavorite' : 'notFavorite'}
+				/>
 			</div>
 		</div>
 	);
 }
+
+MenuItem.propTypes = {
+	itemName: PropTypes.string.isRequired,
+	description: PropTypes.string.isRequired,
+	foodImage: PropTypes.string.isRequired,
+	price: PropTypes.number.isRequired,
+	isFavorite: PropTypes.bool.isRequired,
+};
 
 export default MenuItem;
